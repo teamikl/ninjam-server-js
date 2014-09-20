@@ -30,8 +30,8 @@ exports.parseAuthChallenge =
 function parseAuthChallenge(stream) {
   return {
     challenge: stream.readBuffer(/* length: */ 8),
-    serverCaps: stream.readUInt32(),
-    protocolVersion: stream.readUInt32(),
+    serverCaps: stream.readUInt32LE(),
+    protocolVersion: stream.readUInt32LE(),
     licenseAgreement: stream.readStringNT()
   };
 };

@@ -1,4 +1,6 @@
 
+var SmartBuffer = require('smart-buffer');
+
 _.assign(global, require('../src/message'));
 
 suite('message.js', function(){
@@ -11,7 +13,6 @@ suite('message.js', function(){
       expect(v.toString()).to.equal(u.toString());
     });
 
-
     test('build', function(){
       var licenseAgreement = 'license text';
       var v = buildAuthChallenge(
@@ -21,6 +22,15 @@ suite('message.js', function(){
         licenseAgreement);
 
       expect(8+4+4+licenseAgreement.length+1).to.equal(v.length);
+    });
+
+    test('parse', function(){
+      var v = buildAuthChallenge(
+        new Buffer('xxxxxxxx'),
+        1, 0x00020000, 'license text');
+      var u = parseAuthChallenge(new SmartBuffer(v));
+
+      expect('license text').to.equal(u.licenseAgreement);
     });
   });
 
