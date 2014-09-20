@@ -3,6 +3,7 @@ ninjam-server-js
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/teamikl/ninjam-server-js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Build Status](https://travis-ci.org/teamikl/ninjam-server-js.svg?branch=master)](https://travis-ci.org/teamikl/ninjam-server-js)
 [![Coverage Status](https://coveralls.io/repos/teamikl/ninjam-server-js/badge.png?branch=master)](https://coveralls.io/r/teamikl/ninjam-server-js?branch=master)
+[![Dependency Status](https://gemnasium.com/teamikl/ninjam-server-js.svg)](https://gemnasium.com/teamikl/ninjam-server-js)
 
 NINJAM Server (Work in progress)
 
