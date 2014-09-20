@@ -68,3 +68,12 @@ function buildAuthReply(flag, message, maxChannels) {
   buffer.writeUInt8(maxChannels);
   return buffer.toBuffer();
 }
+
+exports.parseAuthReply =
+function parseAuthReply(stream){
+  return {
+    flag: stream.readUInt8(),
+    message: stream.readStringNT(),
+    maxChannels: stream.readUInt8()
+  };
+}

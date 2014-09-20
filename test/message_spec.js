@@ -42,7 +42,14 @@ suite('message.js', function(){
       expect(v.length).to.equal(1+name.length+1+1);
     });
 
-    test('parse');
+    test('parse', function(){
+      var v = buildAuthReply(0, 'message', 2);
+      var u = parseAuthReply(new SmartBuffer(v));
+
+      expect(u.flag).to.equal(0);
+      expect(u.message).to.equal('message');
+      expect(u.maxChannels).to.equal(2);
+    });
   });
 
   suite('ConfigChangeNotify', function(){
