@@ -1,7 +1,4 @@
+ninjam-server-js
+================
 
-
-## TODO
-
-- [ ] BDD
-- [ ] Logging
-- [ ] LICENSE
+NINJAM Server
