@@ -1,4 +1,4 @@
---ui bdd
+--ui tdd
 --reporter spec
 --require test/setup
 ./test/*_spec.js

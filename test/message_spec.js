@@ -1,47 +1,71 @@
 
 _.assign(global, require('../src/message'));
 
-describe('./src/message', function(){
-  it('createAuthPasswordHash', function(){
-    var u = createAuthPasswordHash('xxxxxxxx', 'anon', '', true);
-    var v = new Buffer('b2262d7bf17b2b7c449ba0ee8cd213e96c788755', 'hex');
+suite('message.js', function(){
+  suite('AuthChallenge', function(){
+    test('createAuthPasswordHash', function(){
+      var u = createAuthPasswordHash('xxxxxxxx', 'anon', '', true);
+      var v = new Buffer('b2262d7bf17b2b7c449ba0ee8cd213e96c788755', 'hex');
 
-    expect(v.length).to.equal(u.length);
-    expect(v.toString()).to.equal(u.toString());
+      expect(v.length).to.equal(u.length);
+      expect(v.toString()).to.equal(u.toString());
+    });
+
+
+    test('build', function(){
+      var licenseAgreement = 'license text';
+      var v = buildAuthChallenge(
+        new Buffer('xxxxxxxx'),
+        1,
+        0x00020000,
+        licenseAgreement);
+
+      expect(8+4+4+licenseAgreement.length+1).to.equal(v.length);
+    });
   });
 
-  it('parseAuthChallenge');
-  it('buildAuthChallenge');
+  suite('AuthReply', function(){
+    test('build');
+    test('parse');
+  });
 
-  it('parseAuthReply');
-  it('buildAuthReplye');
+  suite('ConfigChangeNotify', function(){
 
-  it('parseConfigChangeNotify');
-  it('buildConfigChangeNotify');
+  });
 
-  it('parseUserInfoChangeNotify');
-  it('buildUserInfoChangeNotify');
+  suite('UserInfoChangeNotify', function(){
 
-  it('parseDownloadIntervalBegin');
-  it('buildDownloadIntervalBegin');
+  });
 
-  it('parseDownloadIntervalWrite');
-  it('buildDownloadIntervalWrite');
+  suite('DownloadIntervalBegin', function(){
 
-  it('parseAuthUser');
-  it('buildAuthUser');
+  });
 
-  it('parseSetUserMask');
-  it('buildSetUserMask');
-  it('parseSetChannel');
-  it('buildSetChannel');
+  suite('DownloadIntervalWrite', function(){
 
-  it('parseUploadIntervalBegin');
-  it('buildUploadIntervalBegin');
+  });
 
-  it('parseUploadIntervalWrite');
-  it('buildUploadIntervalWrite');
+  suite('AuthUser', function(){
 
-  it('parseChatMessage');
-  it('buildChatMessage');
+  });
+
+  suite('SetUserMask', function(){
+
+  });
+
+  suite('SetChannel', function(){
+
+  });
+
+  suite('UploadIntervalBegin', function(){
+
+  });
+
+  suite('UploadIntervalWrite', function(){
+
+  });
+
+  suite('ChatMessage', function(){
+
+  });
 });
