@@ -1,0 +1,27 @@
+{
+  "name": "ninjam-server-js",
+  "version": "0.1.0",
+  "description": "NINJAM Server in Node JS",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node ./node_modules/mocha/bin/mocha",
+    "test-watch": "node ./node_modules/mocha/bin/mocha --watch"
+  },
+  "keywords": [
+    "NINJAM"
+  ],
+  "author": "tea",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^2.4.1",
+    "smart-buffer": "^1.0.1",
+    "stream-parser": "^0.3.0"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.21.4"
+  }
+}
