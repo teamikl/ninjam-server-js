@@ -57,3 +57,14 @@ function buildAuthChallenge(challenge, serverCaps, protocolVersion, licenseAgree
 
   return buffer.toBuffer();
 };
+
+exports.buildAuthReply =
+function buildAuthReply(flag, message, maxChannels) {
+  assert(0xff >= flag && flag >= 0x00)
+
+  var buffer = new SmartBuffer();
+  buffer.writeUInt8(flag);
+  buffer.writeStringNT(message);
+  buffer.writeUInt8(maxChannels);
+  return buffer.toBuffer();
+}

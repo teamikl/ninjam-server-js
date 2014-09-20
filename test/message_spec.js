@@ -9,8 +9,8 @@ suite('message.js', function(){
       var u = createAuthPasswordHash('xxxxxxxx', 'anon', '', true);
       var v = new Buffer('b2262d7bf17b2b7c449ba0ee8cd213e96c788755', 'hex');
 
-      expect(v.length).to.equal(u.length);
-      expect(v.toString()).to.equal(u.toString());
+      expect(u.length).to.equal(v.length);
+      expect(u.toString()).to.equal(v.toString());
     });
 
     test('build', function(){
@@ -21,7 +21,7 @@ suite('message.js', function(){
         0x00020000,
         licenseAgreement);
 
-      expect(8+4+4+licenseAgreement.length+1).to.equal(v.length);
+      expect(v.length).to.equal(8+4+4+licenseAgreement.length+1);
     });
 
     test('parse', function(){
@@ -30,12 +30,18 @@ suite('message.js', function(){
         1, 0x00020000, 'license text');
       var u = parseAuthChallenge(new SmartBuffer(v));
 
-      expect('license text').to.equal(u.licenseAgreement);
+      expect(u.licenseAgreement).to.equal('license text');
     });
   });
 
   suite('AuthReply', function(){
-    test('build');
+    test('build', function(){
+      var name = 'anon@127.0.0.x';
+      var v = buildAuthReply(0, name, 2);
+
+      expect(v.length).to.equal(1+name.length+1+1);
+    });
+
     test('parse');
   });
 
