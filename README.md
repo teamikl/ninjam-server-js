@@ -1,6 +1,7 @@
 ninjam-server-js
 ================
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/teamikl/ninjam-server-js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status](https://travis-ci.org/teamikl/ninjam-server-js.svg?branch=master)](https://travis-ci.org/teamikl/ninjam-server-js)
 
 NINJAM Server (Work in progress)
 
