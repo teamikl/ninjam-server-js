@@ -1,4 +1,3 @@
-
 'use strict';
 
 var crypto = require('crypto');
@@ -25,7 +24,6 @@ exports.createAuthPasswordHash =
   return hashB.digest();
 };
 
-
 exports.parseAuthChallenge =
 function parseAuthChallenge(stream) {
   return {
@@ -36,9 +34,15 @@ function parseAuthChallenge(stream) {
   };
 };
 
+// NOTE: This Omit closure function name, because of
+// Lint reports too long line and editor's highligh does not follow
+// it's seperated lines. coding style check may report this issue.
+
+// NOTE: using short variable name is another solution.
+// but that lose some searchabilities.
 
 exports.buildAuthChallenge =
-function buildAuthChallenge(challenge, serverCaps, protocolVersion, licenseAgreement) {
+function (challenge, serverCaps, protocolVersion, licenseAgreement) {
   assert(challenge.length === 8);
 
   var hasLicense = !!licenseAgreement;
@@ -60,14 +64,14 @@ function buildAuthChallenge(challenge, serverCaps, protocolVersion, licenseAgree
 
 exports.buildAuthReply =
 function buildAuthReply(flag, message, maxChannels) {
-  assert(0xff >= flag && flag >= 0x00)
+  assert(0xff >= flag && flag >= 0x00);
 
   var buffer = new SmartBuffer();
   buffer.writeUInt8(flag);
   buffer.writeStringNT(message);
   buffer.writeUInt8(maxChannels);
   return buffer.toBuffer();
-}
+};
 
 exports.parseAuthReply =
 function parseAuthReply(stream){
@@ -76,4 +80,4 @@ function parseAuthReply(stream){
     message: stream.readStringNT(),
     maxChannels: stream.readUInt8()
   };
-}
+};

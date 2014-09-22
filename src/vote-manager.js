@@ -4,7 +4,13 @@ var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var _ = require('lodash');
 
-
+/**
+ * @name VoteManager
+ * @description
+ * @param {number} timeout in seconds.
+ * @param {number} threshold
+ * @param {number} total count of members
+ */
 function VoteManager(timeout, threshold, total) {
   'use strict';
 
@@ -28,14 +34,22 @@ function VoteManager(timeout, threshold, total) {
 }
 util.inherits(VoteManager, EventEmitter);
 
-// private: current time in mili-seconds.
+/**
+ * @private
+ * @description current time since midnight January 1, 1970
+ * @return {number} miliseconds
+ */
 function getCurrentTime() {
   'use strict';
   return new Date.getTime();
 }
 
 /**
- * process vote, this takes three stages Start/Vote/Pass.
+ * Listener for vote event.
+ * This takes three stages Start/Vote/Pass.
+ *
+ * @param {string} user name should be an unique.
+ * @param {now_} assign to local variable for test.
  */
 VoteManager.prototype.vote = function vote(user, now_) {
   'use strict';
@@ -63,6 +77,9 @@ VoteManager.prototype.vote = function vote(user, now_) {
   }
 };
 
+/**
+ * @description
+ */
 VoteManager.prototype.reset = function reset() {
   'use strict';
 

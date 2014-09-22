@@ -1,3 +1,4 @@
+'use strict';
 
 var util = require('util');
 var assert = require('assert').ok;
@@ -11,7 +12,9 @@ var HEADER_SIZE = 5;
 
 
 function Parser() {
-  if (!(this instanceof Parser)) return new Parser();
+  if (!(this instanceof Parser)) {
+    return new Parser();
+  }
   Transform.call(this);
 
   this.msgCode = 0xFF;
@@ -22,20 +25,19 @@ function Parser() {
 util.inherits(Parser, Transform);
 StreamParser(Parser.prototype);
 
-
-NetMessageParser.prototype.onPayload = function onPayload(buffer, output) {
-  assert(this.msgLength == buffer.length);
+Parser.prototype.onPayload = function onPayload(buffer, output) {
+  assert(this.msgLength === buffer.length);
 
   this.emit('message', this.msgCode, new SmartBuffer(buffer));
 
   this._bytes(HEADER_SIZE, this.onHeader);
-}
+};
 
+Parser.prototype.onHeader = function onHeader(buffer, output) {
 
-NetMessageParser.prototype.onHeader = function onHeader(buffer, output) {
-  assert(buffer.length == HEADER_SIZE);
+  assert(buffer.length === HEADER_SIZE);
 
-  var msgCode = this.msgCode = buffer.readUInt8(/* offset: */ 0);
+  this.msgCode = buffer.readUInt8(/* offset: */ 0);
   var msgLength = this.msgLength = buffer.readUInt32LE(/* offset: */ 1);
 
   if (msgLength > 0) {
@@ -45,6 +47,6 @@ NetMessageParser.prototype.onHeader = function onHeader(buffer, output) {
     this.emit('message', KEEP_ALIVE, null);
     this._bytes(HEADER_SIZE, this.onHeader);
   }
-}
+};
 
 module.exports = Parser;
