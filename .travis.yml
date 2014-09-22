@@ -11,6 +11,8 @@ after_install:
 
 script:
   - gulp test
+  - gulp jshint
+  - gulp jscs
 
 after_success:
   - cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js; rm -rf ./coverage

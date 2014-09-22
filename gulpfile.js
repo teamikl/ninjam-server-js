@@ -16,7 +16,7 @@ gulp.task('test', function() {
       ui: 'tdd',
       reporter: 'spec'
     }))
-});
+})
 
 gulp.task('jscs', function() {
   return gulp.src(allJSFiles)
