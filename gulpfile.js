@@ -8,14 +8,14 @@ var allJSFiles = ['./*.js', './src/*.js'];
 
 gulp.task('test', function() {
   // XXX: load from ./test/mocha.opt
-  global._ = require('lodash')
-  global.expect = require('chai').expect
+  global._ = require('lodash');
+  global.expect = require('chai').expect;
 
   return gulp.src(allSpecFiles)
     .pipe($.mocha({
       ui: 'tdd',
       reporter: 'spec'
-    }))
+    }));
 })
 
 gulp.task('jscs', function() {
@@ -26,7 +26,7 @@ gulp.task('jscs', function() {
 gulp.task('jshint', function() {
   return gulp.src(allJSFiles)
     .pipe($.jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe($.jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('watch', function() {
