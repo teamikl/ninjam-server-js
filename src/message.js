@@ -4,9 +4,7 @@ var crypto = require('crypto');
 var assert = require('assert').ok;
 var SmartBuffer = require('smart-buffer');
 
-
-exports.createAuthPasswordHash =
-    function createAuthPasswordHash(challenge, username, password, anonymous) {
+function createAuthPasswordHash(challenge, username, password, anonymous) {
   assert(challenge !== null && challenge.length === 8);
   assert(username !== null);
   assert(password !== null);
@@ -22,9 +20,9 @@ exports.createAuthPasswordHash =
   hashB.update(challenge);
 
   return hashB.digest();
-};
+}
+exports.createAuthPasswordHash = createAuthPasswordHash;
 
-exports.parseAuthChallenge =
 function parseAuthChallenge(stream) {
   return {
     challenge: stream.readBuffer(/* length: */ 8),
@@ -32,7 +30,8 @@ function parseAuthChallenge(stream) {
     protocolVersion: stream.readUInt32LE(),
     licenseAgreement: stream.readStringNT()
   };
-};
+}
+exports.parseAuthChallenge = parseAuthChallenge;
 
 // NOTE: This Omit closure function name, because of
 // Lint reports too long line and editor's highligh does not follow
@@ -41,8 +40,8 @@ function parseAuthChallenge(stream) {
 // NOTE: using short variable name is another solution.
 // but that lose some searchabilities.
 
-exports.buildAuthChallenge =
-function (challenge, serverCaps, protocolVersion, licenseAgreement) {
+function buildAuthChallenge(challenge, serverCaps,
+  protocolVersion, licenseAgreement) {
   assert(challenge.length === 8);
 
   var hasLicense = !!licenseAgreement;
@@ -60,7 +59,8 @@ function (challenge, serverCaps, protocolVersion, licenseAgreement) {
   }
 
   return buffer.toBuffer();
-};
+}
+exports.buildAuthChallenge = buildAuthChallenge;
 
 exports.buildAuthReply =
 function buildAuthReply(flag, message, maxChannels) {
@@ -74,7 +74,7 @@ function buildAuthReply(flag, message, maxChannels) {
 };
 
 exports.parseAuthReply =
-function parseAuthReply(stream){
+function parseAuthReply(stream) {
   return {
     flag: stream.readUInt8(),
     message: stream.readStringNT(),

@@ -10,7 +10,6 @@ var SmartBuffer = require('smart-buffer');
 var KEEP_ALIVE = 0xFD;
 var HEADER_SIZE = 5;
 
-
 function Parser() {
   if (!(this instanceof Parser)) {
     return new Parser();

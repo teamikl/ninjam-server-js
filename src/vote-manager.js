@@ -26,7 +26,7 @@ function VoteManager(timeout, threshold, total) {
   this.expire = null;
   this.assentors = {};
 
-  this.on('update-total', function updateTotal(total){
+  this.on('update-total', function updateTotal(total) {
     self.total = total;
   });
 
@@ -49,7 +49,7 @@ function getCurrentTime() {
  * This takes three stages Start/Vote/Pass.
  *
  * @param {string} user name should be an unique.
- * @param {now_} assign to local variable for test.
+ * @param {number} now_ assigned to local variable for unit test.
  */
 VoteManager.prototype.vote = function vote(user, now_) {
   'use strict';
