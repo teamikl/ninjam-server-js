@@ -6,13 +6,7 @@ node_js:
 install:
   - npm install
 
-after_install:
-  - npm install -g gulp
-
-script:
-  - gulp test
-  - gulp jshint
-  - gulp jscs
+script: gulp test
 
 after_success:
   - cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js; rm -rf ./coverage
