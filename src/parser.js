@@ -2,7 +2,6 @@
 
 var util = require('util');
 var assert = require('assert').ok;
-var Transform = require('stream').Transform;
 var StreamParser = require('stream-parser');
 var SmartBuffer = require('smart-buffer');
 
@@ -14,16 +13,16 @@ function Parser() {
   if (!(this instanceof Parser)) {
     return new Parser();
   }
-  Transform.call(this);
+  StreamParser.call(this);
 
   this.msgCode = 0xFF;
   this.msgLength = 0;
 
   this._bytes(HEADER_SIZE, this.onHeader);
 }
-util.inherits(Parser, Transform);
-StreamParser(Parser.prototype);
+util.inherits(Parser, StreamParser);
 
+/*jshint unused:vars */
 Parser.prototype.onPayload = function onPayload(buffer, output) {
   assert(this.msgLength === buffer.length);
 
@@ -32,6 +31,7 @@ Parser.prototype.onPayload = function onPayload(buffer, output) {
   this._bytes(HEADER_SIZE, this.onHeader);
 };
 
+/*jshint unused:vars */
 Parser.prototype.onHeader = function onHeader(buffer, output) {
 
   assert(buffer.length === HEADER_SIZE);
@@ -47,5 +47,6 @@ Parser.prototype.onHeader = function onHeader(buffer, output) {
     this._bytes(HEADER_SIZE, this.onHeader);
   }
 };
+/*jshint unused:true */
 
 module.exports = Parser;

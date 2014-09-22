@@ -1,5 +1,7 @@
 // Copyright (C) Ikkei Shimomura (tea) <Ikkei.Shimura@gmail.com>
 
+'use strict';
+
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var _ = require('lodash');
@@ -12,7 +14,6 @@ var _ = require('lodash');
  * @param {number} total count of members
  */
 function VoteManager(timeout, threshold, total) {
-  'use strict';
 
   if (!(this instanceof VoteManager)) {
     return new VoteManager(timeout, threshold, total);
@@ -39,10 +40,9 @@ util.inherits(VoteManager, EventEmitter);
  * @description current time since midnight January 1, 1970
  * @return {number} miliseconds
  */
-function getCurrentTime() {
-  'use strict';
+var getCurrentTime = function getCurrentTime() {
   return new Date.getTime();
-}
+};
 
 /**
  * Listener for vote event.
@@ -52,7 +52,6 @@ function getCurrentTime() {
  * @param {number} now_ assigned to local variable for unit test.
  */
 VoteManager.prototype.vote = function vote(user, now_) {
-  'use strict';
 
   // given as argument in unit test
   var now = (now_) ? now_ : getCurrentTime();
@@ -81,7 +80,6 @@ VoteManager.prototype.vote = function vote(user, now_) {
  * @description
  */
 VoteManager.prototype.reset = function reset() {
-  'use strict';
 
   this.expire = null;
   this.assentors = {};

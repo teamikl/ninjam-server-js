@@ -33,13 +33,6 @@ function parseAuthChallenge(stream) {
 }
 exports.parseAuthChallenge = parseAuthChallenge;
 
-// NOTE: This Omit closure function name, because of
-// Lint reports too long line and editor's highligh does not follow
-// it's seperated lines. coding style check may report this issue.
-
-// NOTE: using short variable name is another solution.
-// but that lose some searchabilities.
-
 function buildAuthChallenge(challenge, serverCaps,
   protocolVersion, licenseAgreement) {
   assert(challenge.length === 8);
