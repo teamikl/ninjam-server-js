@@ -3,11 +3,14 @@ language: node_js
 node_js:
   - "0.10"
 
-install: npm install
+install:
+  - npm install
 
-# script: npm test
+after_install:
+  - npm install -g gulp
+
 script:
-  - node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha
+  - gulp test
 
 after_success:
   - cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js; rm -rf ./coverage

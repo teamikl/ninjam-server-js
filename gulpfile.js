@@ -1,23 +1,32 @@
 'use strict';
 
 var gulp = require('gulp');
+var $ = require('gulp-load-plugins')();
 
+var allSpecFiles = ['./test/*_spec.js'];
 var allJSFiles = ['./*.js', './src/*.js'];
 
-gulp.task('jscs', function() {
-  var jscs = require('gulp-jscs');
+gulp.task('test', function() {
+  // XXX: load from ./test/mocha.opt
+  global._ = require('lodash')
+  global.expect = require('chai').expect
 
+  return gulp.src(allSpecFiles)
+    .pipe($.mocha({
+      ui: 'tdd',
+      reporter: 'spec'
+    }))
+});
+
+gulp.task('jscs', function() {
   return gulp.src(allJSFiles)
-    .pipe(jscs());
+    .pipe($.jscs());
 });
 
 gulp.task('jshint', function() {
-  var jshint = require('gulp-jshint');
-  var stylish = require('jshint-stylish');
-
   return gulp.src(allJSFiles)
-    .pipe(jshint())
-    .pipe(jshint.reporter(stylish));
+    .pipe($.jshint())
+    .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('watch', function() {
