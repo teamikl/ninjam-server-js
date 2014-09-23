@@ -10,7 +10,7 @@ function createAuthPasswordHash(challenge, username, password, anonymous) {
   assert(password !== null);
 
   var hashA = crypto.createHash('sha1');
-  if (anonymous) {
+  if (!!anonymous) {
     hashA.update('anonymous:');
   }
   hashA.update(username + ':' + password);

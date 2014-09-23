@@ -64,10 +64,12 @@ VoteManager.prototype.vote = function vote(user, now_) {
 
   // Voted
   if (this.expire > now) {
-    // TODO: if user was already voted?
+    // TODO: event for if user was already voted?
     this.assentors[user] = now;
     this.emit('voted', user, now);
   }
+
+  // TODO: remove expired assentor
 
   // Passed
   if (_.keys(this.assentors).length / this.total * 100 >= this.threshold) {
@@ -82,7 +84,7 @@ VoteManager.prototype.vote = function vote(user, now_) {
 VoteManager.prototype.reset = function reset() {
 
   this.expire = null;
-  this.assentors = {};
+  this.assentors = {}; /* avoid multi triggered */
 };
 
 module.exports = VoteManager;

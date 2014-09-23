@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha",
-    "test-watch": "node ./node_modules/mocha/bin/mocha --watch"
+    "test-watch": "node ./node_modules/mocha/bin/mocha --watch",
+    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha"
   },
   "keywords": [
     "NINJAM"
