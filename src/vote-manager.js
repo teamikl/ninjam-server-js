@@ -31,7 +31,7 @@ function VoteManager(timeout, threshold, total) {
     self.total = total;
   });
 
-  this.on('vote', this.vote);
+  this.on('vote', this.vote.bind(this));
 }
 util.inherits(VoteManager, EventEmitter);
 
@@ -41,7 +41,7 @@ util.inherits(VoteManager, EventEmitter);
  * @return {number} miliseconds
  */
 var getCurrentTime = function getCurrentTime() {
-  return new Date.getTime();
+  return (new Date()).getTime();
 };
 
 /**
@@ -57,7 +57,7 @@ VoteManager.prototype.vote = function vote(user, now_) {
   var now = (now_) ? now_ : getCurrentTime();
 
   // Started
-  if (this.expire !== null) {
+  if (this.expire === null) {
     this.expire = now + this.timeout * 1000; /* ms */
     this.emit('started', user, now);
   }
