@@ -1,3 +1,4 @@
+'use strict';
 
 var VoteManager = require('../src/vote-manager');
 
@@ -12,6 +13,7 @@ describe('vote manager', function() {
     manager.on('passed', function() {
       done();
     });
+    manager.emit('update-total', 4);
     manager.emit('vote', 'userA');
     manager.emit('vote', 'userB');
   });

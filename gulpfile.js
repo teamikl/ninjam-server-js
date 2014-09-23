@@ -7,6 +7,7 @@ var allSpecFiles = ['./test/*_spec.js'];
 var allJSFiles = ['./*.js', './src/*.js'];
 
 gulp.task('test', function() {
+  // NOTE: need to load explicitly
   var mocha = require('gulp-mocha');
 
   // XXX: load from ./test/mocha.opt
@@ -18,6 +19,17 @@ gulp.task('test', function() {
       ui: 'bdd',
       reporter: 'spec'
     }));
+});
+
+// XXX: not work
+gulp.task('cover', function() {
+  gulp.src(allJSFiles)
+    .pipe($.istanbul())
+    .on('end', function(){
+      gulp.src(allJSFiles)
+        .pipe($.mocha())
+        .pipe($.istanbul.writeReports('coverage'))
+    })
 });
 
 gulp.task('jscs', function() {
