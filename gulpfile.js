@@ -7,13 +7,15 @@ var allSpecFiles = ['./test/*_spec.js'];
 var allJSFiles = ['./*.js', './src/*.js'];
 
 gulp.task('test', function() {
+  var mocha = require('gulp-mocha');
+
   // XXX: load from ./test/mocha.opt
   global._ = require('lodash');
   global.expect = require('chai').expect;
 
   return gulp.src(allSpecFiles)
-    .pipe($.mocha({
-      ui: 'tdd',
+    .pipe(mocha({
+      ui: 'bdd',
       reporter: 'spec'
     }));
 });
