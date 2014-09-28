@@ -1,24 +1,22 @@
 language: node_js
-
 node_js:
-  - "0.10"
-
+- '0.10'
 install:
-  - npm install
-
+- npm install
 script: ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha
-
 after_success:
-  - cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js; rm -rf ./coverage
-
+- cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js; rm -rf
+  ./coverage
 notifications:
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/24ef0a3dc30496785dbb
-    on_success: always  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: false     # default: false
-
+    - https://webhooks.gitter.im/e/24ef0a3dc30496785dbb
+    on_success: always
+    on_failure: always
+    on_start: false
   slack:
     rooms:
-      - teamikl:KWPPDyGWSgf8QUUDQG429c93#ninjam
+    - teamikl:KWPPDyGWSgf8QUUDQG429c93#ninjam
+env:
+  global:
+    secure: IHGRGVAAlnnRelZZbYUTxqaD8Z+LWINcmgG4fGJgHM7fcIg0j1TGKw8jbXply5kFiNfTSAhCMfC6PJW9WSwJgDi6hj0hud3Y8v4Qphnm+8ggX7hbNJX54Wn4Eue4Q7XLI0yJF6jw0p1ljPTOTJOYT/1YZcyLOedP1/5L3Fv0JFU=
