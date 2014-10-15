@@ -74,11 +74,10 @@ KeepAliveTimer.prototype.startTimer = function startTimer() {
  * @private
  */
 KeepAliveTimer.prototype.stopTimer = function stopTimer() {
-  if (this.timer === null) {
-    return;
+  if (this.timer !== null) {
+    clearInterval(this.timer);
+    this.timer = null;
   }
-  clearInterval(this.timer);
-  this.timer = null;
 };
 
 /**
