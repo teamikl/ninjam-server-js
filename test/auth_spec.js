@@ -31,6 +31,19 @@ JohnAuth.prototype.authenticate = function(callback) {
 
 
 describe('auth.js', function(){
+
+  describe('auth', function(){
+    it('call base for coverage', function(){
+      var auth = Auth();
+      auth.initialize();
+      auth.authenticate(function(cb){
+        done();
+      });
+      auth.login();
+      auth.logout();
+    });
+  });
+
   describe('on memory key-value store user look up', function(){
     it('emit commit', function (done){
       var auth = new JohnAuth();
@@ -42,6 +55,14 @@ describe('auth.js', function(){
         done(reason);
       });
       auth.login();
+    });
+
+    it('fail authenticate', function(done) {
+      var auth = JohnAuth();
+      auth.initialize("test", "foo");
+      auth.login(/* timeout */ null,
+        /* commit callback */ function(){},
+        /* abort callback */ function(){ done(); })
     });
 
     it('emit abort event by timeout', function (done){

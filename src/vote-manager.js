@@ -68,6 +68,8 @@ VoteManager.prototype.vote = function vote(user, now_) {
     this.assentors[user] = now;
     this.emit('voted', user, now);
   }
+  else {
+  }
 
   // TODO: remove expired assentor
 
