@@ -15,6 +15,10 @@ describe('keep-alive', function() {
     expect(keepAlive.timer).to.equal(null);
   });
 
+  it('should be KeepAliveTimer instance', function() {
+    expect(KeepAliveTimer(3)).to.be.an.instanceOf(KeepAliveTimer);
+  });
+
   it('should fail negative interval value', function() {
     expect(function with_zero() {
       new KeepAliveTimer(0);
@@ -35,8 +39,8 @@ describe('keep-alive', function() {
     this.timeout(3 * 1000 /* ms */);
     var keepAlive = new KeepAliveTimer(0.01 /* seconds */);
     keepAlive.once('ping', function onPing(){
-      keepAlive.emit('stopTimer');
       done();
+      keepAlive.stop();
       expect(keepAlive.timer).to.equal(null);
     });
     keepAlive.start();
@@ -46,8 +50,8 @@ describe('keep-alive', function() {
     this.timeout(3 * 1000 /* ms */)
     var keepAlive = new KeepAliveTimer(0.02 /* seconds */);
     keepAlive.once('expired', function onExpired(){
-      keepAlive.emit('stopTimer');
       done();
+      keepAlive.stop();
       expect(keepAlive.timer).to.equal(null);
     });
     keepAlive.start();
