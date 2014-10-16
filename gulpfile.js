@@ -25,11 +25,11 @@ gulp.task('test', function() {
 gulp.task('cover', function() {
   gulp.src(allJSFiles)
     .pipe($.istanbul())
-    .on('end', function(){
+    .on('end', function() {
       gulp.src(allJSFiles)
         .pipe($.mocha())
-        .pipe($.istanbul.writeReports('coverage'))
-    })
+        .pipe($.istanbul.writeReports('coverage'));
+    });
 });
 
 gulp.task('jscs', function() {
