@@ -10,6 +10,8 @@
  * NOTE: This module will be an obsolute module after v1.0
  */
 
+'use strict';
+
 // TODO: lineno for parse error
 // TODO: selectable safe parse or raise error
 
@@ -28,7 +30,7 @@ function parseBoolean(x) {
 /**
  * @private
  */
-function shlex_split(line) {
+function shlexSplit(line) {
   return line.match(/"([^"]+)"/);
 }
 
@@ -39,59 +41,60 @@ function ConfigBuilder() {
   var config = {
     ACL: {},
     User: {}
-  }
-
-  this.Port = function(port) {
-    config.Port = _.parseInt(port);
-  };
-  this.MaxUsers = function(maxUsers) {
-    config.MaxUsers = _.parseInt(maxUsers);
-  };
-  this.MaxChannels = function(maxUserChannels, maxAnonChannels) {
-    // XXX: Hits parseInt/map strange behavior
-    // parseInt takes two argument map given a pair of element and the index.
-    config.MaxChannels = _.map([maxUserChannels, maxAnonChannels], Number);
-  };
-  this.DefaultTopic = function(defaultTopic) {
-    config.DefaultTopic = defaultTopic;
-  };
-  this.DefaultBPM = function(defaultBpm) {
-    config.DefaultBPM = _.parseInt(defaultBpm);
-  };
-  this.DefaultBPI = function(defaultBpi) {
-    config.DefaultBPI = _.parseInt(defaultBpi);
-  };
-  this.ServerLicense = function(serverLicense) {
-    config.ServerLicense = serverLicense;
-  };
-  this.AnonymousUsers = function(anonymousUsers) {
-    config.AnonymousUsers = parseBoolean(anonymousUsers);
-  };
-  this.AnonymousUsersCanChat = function(anonymousUsersCanChat) {
-    config.AnonymousUsersCanChat = parseBoolean(anonymousUsersCanChat);
-  };
-  this.AnonymousMaskIP = function(anonymousMaskIP) {
-    config.AnonymousMaskIP = parseBoolean(anonymousMaskIP);
-  };
-  this.AllowHiddenUsers = function(allowHiddenUsers) {
-    config.AllowHiddenUsers = parseBoolean(allowHiddenUsers);
-  };
-  this.ACL = function(mask, access) {
-    config.ACL[mask] = access;
-  };
-  this.User = function(name, pass, perm) {
-    perm = (perm === undefined) ? '*' : perm;
-    config.User[name] = {pass: pass, perm: perm};
-  };
-  this.SetVotingThreshold = function(setVotingThreshold) {
-    config.SetVotingThreshold = _.parseInt(setVotingThreshold);
-  };
-  this.SetVotingVoteTimeout = function(setVotingVoteTimeout) {
-    config.SetVotingVoteTimeout = _.parseInt(setVotingVoteTimeout);
   };
 
-  this.getResult = function() {
-    return config;
+  return {
+    Port: function setPort(port) {
+      config.Port = _.parseInt(port);
+    },
+    MaxUsers: function setMaxUsers(maxUsers) {
+      config.MaxUsers = _.parseInt(maxUsers);
+    },
+    MaxChannels: function setMaxChannels(maxUserChannels, maxAnonChannels) {
+      // XXX: Hits parseInt/map strange behavior
+      // parseInt takes two arguments map given element and the index.
+      config.MaxChannels = _.map([maxUserChannels, maxAnonChannels], Number);
+    },
+    DefaultTopic: function setDefaultTopic(defaultTopic) {
+      config.DefaultTopic = defaultTopic;
+    },
+    DefaultBPM: function setDefaultBPM(defaultBpm) {
+      config.DefaultBPM = _.parseInt(defaultBpm);
+    },
+    DefaultBPI: function setDefaultBPI(defaultBpi) {
+      config.DefaultBPI = _.parseInt(defaultBpi);
+    },
+    ServerLicense: function setServerLicense(serverLicense) {
+      config.ServerLicense = serverLicense;
+    },
+    AnonymousUsers: function setAnonymousUsers(anonymousUsers) {
+      config.AnonymousUsers = parseBoolean(anonymousUsers);
+    },
+    AnonymousUsersCanChat: function setAnonymousUsersCanChat(canChat) {
+      config.AnonymousUsersCanChat = parseBoolean(canChat);
+    },
+    AnonymousMaskIP: function setAnonymousMaskIP(maskIP) {
+      config.AnonymousMaskIP = parseBoolean(maskIP);
+    },
+    AllowHiddenUsers: function setAllowHiddenUsers(allowHiddenUsers) {
+      config.AllowHiddenUsers = parseBoolean(allowHiddenUsers);
+    },
+    ACL: function addACL(mask, access) {
+      config.ACL[mask] = access;
+    },
+    User: function addUser(name, pass, perm) {
+      perm = (perm === undefined) ? '*' : perm;
+      config.User[name] = {pass: pass, perm: perm};
+    },
+    SetVotingThreshold: function setSetVotingThreshold(votingThreshold) {
+      config.SetVotingThreshold = _.parseInt(votingThreshold);
+    },
+    SetVotingVoteTimeout: function setSetVotingVoteTimeout(voteTimeout) {
+      config.SetVotingVoteTimeout = _.parseInt(voteTimeout);
+    },
+    getResult: function getResult() {
+      return config;
+    }
   };
 }
 
@@ -104,28 +107,28 @@ function loadConfig(filePath, done) {
   var reader = readline.createInterface(stream, {});
   var lineno = 0;
   var error = null;
-  var is_comment = function(line) { return !!(line.lastIndexOf('#', 0) === 0); };
-  var is_not_comment = function(line) { return !is_comment(line); };
+  var isComment = function(line) { return (line.lastIndexOf('#', 0) === 0); };
+  var isNotComment = function(line) { return !isComment(line); };
 
   stream.on('error', function onStreamError(err) {
     done(err, null);
-  })
+  });
 
   reader.on('line', function onReadLine(line) {
     lineno += 1;
 
-    if (line === '' || is_comment(line)) {
+    if (line === '' || isComment(line)) {
       return;
     }
 
-    var xs = _.head(line.split(/\s+/), is_not_comment);
+    var xs = _.head(line.split(/\s+/), isNotComment);
     var key = _.first(xs);
     var value = null;
 
     switch (key) {
     case 'DefaultTopic':
       // Ad-hoc quoted string handling
-      value = [shlex_split(line)[1]];
+      value = [shlexSplit(line)[1]];
       break;
     default:
       value = _.rest(xs);
@@ -133,11 +136,10 @@ function loadConfig(filePath, done) {
     }
 
     var method = builder[key];
-    console.log(key)
     if (_.isFunction(method) && value !== null) {
       method.apply(builder, value);
     } else {
-      error = format("Unknown key %s at line: %d", key, lineno);
+      error = format('Unknown key %s at line: %d', key, lineno);
       stream.close();
     }
   });
