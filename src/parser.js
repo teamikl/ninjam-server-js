@@ -2,25 +2,22 @@
 
 var util = require('util');
 var assert = require('assert').ok;
-var StreamParser = require('stream-parser');
+var Transform = require('stream').Transform;
+var streamParserMixin = require('stream-parser');
 var SmartBuffer = require('smart-buffer');
 
-// XXX: message.js
-var KEEP_ALIVE = 0xFD;
 var HEADER_SIZE = 5;
 
 function Parser() {
-  if (!(this instanceof Parser)) {
-    return new Parser();
-  }
-  StreamParser.call(this);
+  Transform.call(this);
 
   this.msgCode = 0xFF;
   this.msgLength = 0;
 
   this._bytes(HEADER_SIZE, this.onHeader);
 }
-util.inherits(Parser, StreamParser);
+util.inherits(Parser, Transform);
+streamParserMixin(Parser.prototype);
 
 /*jshint unused:vars */
 Parser.prototype.onPayload = function onPayload(buffer, output) {
@@ -43,7 +40,7 @@ Parser.prototype.onHeader = function onHeader(buffer, output) {
     this._bytes(msgLength, this.onPayload);
   } else {
     // NOTE: skip keep-alive payload
-    this.emit('message', KEEP_ALIVE, null);
+    this.emit('message', this.msgCode, null);
     this._bytes(HEADER_SIZE, this.onHeader);
   }
 };
