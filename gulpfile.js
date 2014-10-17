@@ -22,7 +22,7 @@ gulp.task('test', function() {
 });
 
 // XXX: not work
-gulp.task('cover', function() {
+gulp.task('cover', ['test'], function() {
   gulp.src(allJSFiles)
     .pipe($.istanbul())
     .on('end', function() {
@@ -46,5 +46,7 @@ gulp.task('jshint', function() {
 gulp.task('watch', function() {
   gulp.watch(allJSFiles, ['jshint', 'jscs']);
 });
+
+gulp.task('check', ['jshint', 'jscs', 'cover']);
 
 gulp.task('default', ['watch']);

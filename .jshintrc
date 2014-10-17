@@ -1,6 +1,25 @@
 // http://www.jshint.com/docs/options/
 
 {
+  "predef": [
+    "SERVER_AUTH_CHALLENGE",
+    "SERVER_AUTH_REPLY",
+    "SERVER_CONFIG_CHANGE_NOTIFY",
+    "SERVER_USERINFO_CHANGE_NOTIFY",
+    "SERVER_DOWNLOAD_INTERVAL_BEGIN",
+    "SERVER_DOWNLOAD_INTERVAL_WRITE",
+    "CLIENT_AUTH_USER",
+    "CLIENT_SET_USERMASK",
+    "CLIENT_SET_CHANNEL",
+    "CLIENT_UPLOAD_INTERVAL_BEGIN",
+    "CLIENT_UPLOAD_INTERVAL_WRITE",
+    "CHAT_MESSAGE",
+    "KEEP_ALIVE",
+    "EXTENDED",
+    "INVALID",
+    "KEEP_ALIVE_PACKET"
+  ],
+
   "bitwise": false,
 
   "camelcase": true,
