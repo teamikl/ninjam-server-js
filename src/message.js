@@ -4,6 +4,44 @@ var crypto = require('crypto');
 var assert = require('assert').ok;
 var SmartBuffer = require('smart-buffer');
 
+/**
+ *
+ */
+function messageTranslateMixin(type, payload) {
+  switch (type) {
+  case SERVER_AUTH_CHALLENGE:
+    break;
+  case SERVER_AUTH_REPLY:
+    break;
+  case SERVER_CONFIG_CHANGE_NOTIFY:
+    break;
+  case SERVER_USERINFO_CHANGE_NOTIFY:
+    break;
+  case SERVER_DOWNLOAD_INTERVAL_BEGIN:
+    break;
+  case SERVER_DOWNLOAD_INTERVAL_WRITE:
+    break;
+  case CLIENT_AUTH_USER:
+    break;
+  case CLIENT_SET_USER_MASK:
+    break;
+  case CLIENT_SET_CHANNEL:
+    break;
+  case CLIENT_UPLOAD_INTERVAL_BEGIN:
+    break;
+  case CLIENT_UPLOAD_INTERVAL_WRITE:
+    break;
+  case CHAT_MESSAGE:
+    // TODO: delegate to chat module
+    break;
+  case KEEP_ALIVE:
+    // TODO: update keep-alive expire time
+    // this.emit('keep-alive');
+    break;
+  }
+}
+exports.messageTranslateMixin = messageTranslateMixin;
+
 function createAuthPasswordHash(challenge, username, password, anonymous) {
   assert(challenge !== null && challenge.length === 8);
   assert(username !== null);
