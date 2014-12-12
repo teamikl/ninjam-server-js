@@ -17,4 +17,14 @@ describe('vote manager', function() {
     manager.emit('vote', 'userA');
     manager.emit('vote', 'userB');
   });
+
+  it('should have deault values', function(){
+    var manager = new VoteManager();
+    manager.vote('userA', 10);
+    manager.vote('userB', 1000000000000);
+
+    expect(manager.total).to.equal(0);
+    expect(manager.timeout).to.equal(60);
+    expect(manager.threshold).to.equal(50);
+  });
 });

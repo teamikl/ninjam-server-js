@@ -13,6 +13,12 @@ describe('message.js', function(){
       expect(u.toString()).to.equal(v.toString());
     });
 
+    it('createAuthPasswordHash non anon', function(){
+      var u = createAuthPasswordHash('xxxxxxxx', 'anon', '', false);
+
+      expect(u.length).to.equal(20);
+    });
+
     it('build', function(){
       var licenseAgreement = 'license text';
       var v = buildAuthChallenge(
@@ -31,6 +37,14 @@ describe('message.js', function(){
       var u = parseAuthChallenge(new SmartBuffer(v));
 
       expect(u.licenseAgreement).to.equal('license text');
+    });
+
+    it('build-no-license', function(){
+      var v = buildAuthChallenge(
+        new Buffer('xxxxxxxx'),
+        1, 0x00020000, '');
+
+      expect(v.length).to.equal(16);
     });
   });
 
